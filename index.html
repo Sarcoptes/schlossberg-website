@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schlossberg Agrar – Startseite</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+<style>
+    :root {
+      --primary: #288EB3;
+      --primary-dark: #1B8684;
+      --accent: #34DE87;
+      --bg-light: #E3F3FE;
+      --bg-dark: #0E4458;
+      --text-dark: #1F2021;
+      --transition: all 0.3s ease;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3, .quote-text {
+      font-family: 'Manrope', sans-serif;
+    }
+    
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    
+    .loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .loading-logo {
+      width: 150px;
+      height: 150px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+      padding: 1rem 0;
+    }
+    
+    .navbar.scrolled {
+      background-color: #ffffff;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0;
+    }
+    
+    .navbar-brand img {
+      height: 50px;
+      transition: var(--transition);
+    }
+    
+    .navbar-brand img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./A_photograph_captures_the_interior_of_a_modern_pig.png") center center/cover no-repeat fixed;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-content h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      background-color: var(--primary);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline-primary {
+      color: var(--primary);
+      border-color: var(--primary);
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .btn-outline-primary:hover {
+      background-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    /* Section Titles */
+    .section-title {
+      position: relative;
+      padding-left: 1rem;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 4rem 0 2rem;
+    }
+    
+    .section-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 5px;
+      background: var(--primary);
+    }
+    
+    /* Cards */
+    .hover-card {
+      transition: var(--transition);
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .hover-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .hover-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(100%);
+      transition: var(--transition);
+      padding: 1.5rem;
+    }
+    
+    .hover-card:hover .hover-overlay {
+      transform: translateY(0);
+    }
+    
+    /* Quote Section */
+    .modern-quote {
+      max-width: 800px;
+      margin: 6rem auto;
+      padding: 3rem;
+      background: var(--bg-light);
+      border-radius: 20px;
+      position: relative;
+    }
+    
+    .modern-quote::before {
+      content: '"';
+      position: absolute;
+      top: -2rem;
+      left: -2rem;
+      font-size: 8rem;
+      color: var(--primary);
+      opacity: 0.1;
+      font-family: serif;
+    }
+    
+    .quote-text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+    
+    .quote-author {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-top: 1.5rem;
+      font-weight: 600;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 6rem 2rem;
+      text-align: center;
+      color: white;
+      margin-top: 6rem;
+    }
+    
+    .cta-section h2 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-section .lead {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+    
+    /* Contact Form */
+    .contact-form {
+      background: white;
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      margin-top: 3rem;
+    }
+    
+    .form-control {
+      padding: 1rem;
+      border-radius: 10px;
+      border: 2px solid #eee;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(40, 142, 179, 0.25);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--bg-dark);
+      color: white;
+      padding: 4rem 1rem 2rem;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    footer a:hover {
+      color: var(--accent);
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-links a {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      background: white;
+      color: var(--primary);
+    }
+    
+    /* Dark Mode Toggle */
+    .dark-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: var(--transition);
+      z-index: 999;
+    }
+    
+    .dark-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: var(--transition);
+      z-index: 1000;
+    }
+    
+    .fab:hover {
+      transform: scale(1.1) rotate(90deg);
+      background: var(--primary-dark);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .cta-section {
+        padding: 4rem 1rem;
+      }
+      
+      .contact-form {
+        padding: 2rem;
+      }
+      
+      .hero {
+        background-attachment: scroll;
+      }
+    }
+    
+    /* Dark Mode */
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: white;
+    }
+    
+    body.dark-mode .glass-card {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Parallax Effects */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Animated Statistics */
+    .stat-card {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--text-dark);
+    }
+
+    /* Cookie Consent */
+    .cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 1.5rem;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+      z-index: 9999;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .cookie-consent.show {
+      transform: translateY(0);
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      background: var(--bg-light);
+      padding: 4rem 0;
+      margin: 4rem 0;
+    }
+
+    .newsletter-form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Social Media */
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px);
+      background: var(--primary-dark);
+    }
+
+    /* Map Section */
+    .map-container {
+      height: 400px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: 4rem 0;
+    }
+
+    /* Loading Animation */
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Micro-interactions */
+    .btn-micro {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-micro::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255,255,255,0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .btn-micro:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+
+    /* Zitat-Rotation */
+    .modern-quote {
+      position: relative;
+      overflow: visible;
+    }
+    .modern-quote::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.97);
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .modern-quote:hover::before {
+      opacity: 1;
+    }
+
+    /* Checkbox/Label im Kontaktformular */
+    .form-check-label {
+      display: inline;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      font-size: 1rem;
+    }
+    .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+</style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen">
+    <img src="Color logo - no background Kopie.svg" alt="Loading..." class="loading-logo">
+  </div>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="Color logo - no background Kopie.svg" alt="Schlossberg Agrar Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Startseite</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Über uns</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Leistungen</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Für Landwirte</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Aktuelles</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Servicebereich</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kontakt">Kontakt</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Rechtliches</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <h1 id="hero-slogan">Alles aus einer Hand – Ihre Experten für Tiergesundheit und -produktion</h1>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="#kontakt" class="btn btn-primary btn-lg">
+          <i class="fas fa-envelope me-2"></i>Jetzt unverbindlich Kontakt aufnehmen
+        </a>
+        <a href="#kontakt" class="btn btn-outline-light btn-lg">
+          <i class="fas fa-phone me-2"></i>Termin vereinbaren
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title">Wer wir sind</h2>
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <p class="lead mb-4">
+            Als Zusammenschluss führender Tierarztpraxen und der Firma Schlossberg Agrar bieten wir
+            Ihnen maßgeschneiderte Lösungen für eine erfolgreiche Schweinehaltung.
+          </p>
+          <p>
+            Von der Gesundheitsüberwachung bis zur Produktionsoptimierung – unser ganzheitlicher Ansatz sichert
+            Ihnen den wirtschaftlichen Erfolg.
+          </p>
+        </div>
+        <div class="col-lg-6">
+          <img src="about-image.jpg" alt="Über uns" class="img-fluid rounded-4 shadow">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center">Verbundene Tierarztpraxen</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="hover-card bg-white shadow-sm position-relative">
+            <img src="logo-hohenlohe.jpg" alt="Hohenlohe" class="img-fluid p-4">
+            <div class="hover-overlay">
+              <h5 class="fw-bold mb-2">vetxerts Hohenlohe</h5>
+              <p class="mb-1"><i class="fas fa-envelope me-2"></i><a href="mailto:kontakt@tierarztpraxis-hohenlohe.de">kontakt@tierarztpraxis-hohenlohe.de</a></p>
+              <p class="mb-0"><i class="fas fa-phone me-2"></i>+49 (7955) 389705</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="hover-card bg-white shadow-sm position-relative">
+            <img src="logo-scheidegg.webp" alt="Scheidegg" class="img-fluid p-4">
+            <div class="hover-overlay">
+              <h5 class="fw-bold mb-2">Tierarztpraxis Scheidegg</h5>
+              <p class="mb-1"><i class="fas fa-envelope me-2"></i><a href="mailto:info@tierarztpraxis-scheidegg.de">info@tierarztpraxis-scheidegg.de</a></p>
+              <p class="mb-0"><i class="fas fa-phone me-2"></i>+49 (8381) 2572</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="hover-card bg-white shadow-sm position-relative">
+            <img src="logo-tiefenbach.png" alt="Tiefenbach" class="img-fluid p-4">
+            <div class="hover-overlay">
+              <h5 class="fw-bold mb-2">Tierärzte Tiefenbach GmbH</h5>
+              <p class="mb-1"><i class="fas fa-envelope me-2"></i><a href="mailto:info@tierarzt-crailsheim.de">info@tierarzt-crailsheim.de</a></p>
+              <p class="mb-0"><i class="fas fa-phone me-2"></i>+49 (7951) 97970</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Unsere Alleinstellungsmerkmale</h2>
+      <div class="row g-4">
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="hover-card bg-white shadow-sm p-4 text-center">
+            <img src="tierarzt_gefuehrt.png" alt="Tierärztlich geführt" class="img-fluid mb-3" style="height: 80px;">
+            <h5 class="fw-bold mb-2">Tierärztlich geführt</h5>
+            <p class="text-muted small">Langjährige Erfahrung & Fachwissen</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="hover-card bg-white shadow-sm p-4 text-center">
+            <img src="qs_audit.png" alt="QS-Bündelung & Auditbegleitung" class="img-fluid mb-3" style="height: 80px;">
+            <h5 class="fw-bold mb-2">QS-Bündelung</h5>
+            <p class="text-muted small">Komplettservice für Zertifizierungen</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="hover-card bg-white shadow-sm p-4 text-center">
+            <img src="daten_monitoring.png" alt="Daten & Monitoring" class="img-fluid mb-3" style="height: 80px;">
+            <h5 class="fw-bold mb-2">Daten & Monitoring</h5>
+            <p class="text-muted small">Transparente Kontrolle & Auswertung</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="hover-card bg-white shadow-sm p-4 text-center">
+            <img src="persoenliche_betreuung.png" alt="Persönliche Betreuung" class="img-fluid mb-3" style="height: 80px;">
+            <h5 class="fw-bold mb-2">Persönliche Betreuung</h5>
+            <p class="text-muted small">Kundenbindung über Generationen</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modern-quote" id="quote-box">
+    <p class="quote-text" id="quote-text">
+      „Zusammenkommen ist ein Beginn, zusammenbleiben ist ein Fortschritt, zusammenarbeiten ist ein Erfolg."
+    </p>
+    <p class="quote-author" id="quote-author">— Henry Ford</p>
+  </div>
+
+  <section class="cta-section" id="kontakt">
+    <div class="container">
+      <h2>Lernen wir uns kennen!</h2>
+      <p class="lead mb-4">
+        Schlossberg Agrar steht für persönliche, verlässliche und zukunftsorientierte Beratung –
+        von der Tiergesundheit bis zur Systemlösung.
+      </p>
+      <div class="contact-form">
+        <form>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Ihr Name">
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">E-Mail</label>
+              <input type="email" class="form-control" id="email" placeholder="name@beispiel.de">
+            </div>
+            <div class="col-12">
+              <label for="nachricht" class="form-label">Nachricht</label>
+              <textarea class="form-control" id="nachricht" rows="4" placeholder="Ihre Nachricht"></textarea>
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="datenschutz">
+                <label class="form-check-label" for="datenschutz">
+                  Ich stimme der <a href="#">Datenschutzerklärung</a> zu
+                </label>
+              </div>
+            </div>
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-paper-plane me-2"></i>Nachricht senden
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h5 class="mb-3">Schloßberg GmbH Agrarservice</h5>
+          <p class="mb-2">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            Gottfried-Angerer Straße 1<br>
+            88339 Bad Waldsee
+          </p>
+          <p class="mb-2">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@schlossberg-agrar.de">info@schlossberg-agrar.de</a>
+          </p>
+          <p class="mb-0">
+            <i class="fas fa-phone me-2"></i>
+            +49 151 65683235<br>
+            +49 172 1337817
+          </p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h5 class="mb-3">Schnellzugriff</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#">Über uns</a></li>
+            <li class="mb-2"><a href="#">Leistungen</a></li>
+            <li class="mb-2"><a href="#">Für Landwirte</a></li>
+            <li class="mb-2"><a href="#">Aktuelles</a></li>
+            <li class="mb-2"><a href="#">Servicebereich</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h5 class="mb-3">Rechtliches</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#">Impressum</a></li>
+            <li class="mb-2"><a href="#">Datenschutzerklärung</a></li>
+            <li class="mb-2"><a href="#">AGB</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="social-links justify-content-center mt-4">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <p class="mb-0">© 2024 Schlossberg Agrar. Alle Rechte vorbehalten.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="dark-toggle" style="left: 20px; right: auto;">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <a href="#kontakt" class="fab">
+    <i class="fas fa-comment-dots"></i>
+  </a>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-3" data-aos="fade-up">
+          <div class="stat-card">
+            <div class="stat-number" data-count="50">0</div>
+            <div class="stat-label">Jahre Erfahrung</div>
+          </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="stat-card">
+            <div class="stat-number" data-count="1000">0</div>
+            <div class="stat-label">Zufriedene Kunden</div>
+          </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+          <div class="stat-card">
+            <div class="stat-number" data-count="100">0</div>
+            <div class="stat-label">Mitarbeiter</div>
+          </div>
+        </div>
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+          <div class="stat-card">
+            <div class="stat-number" data-count="5">0</div>
+            <div class="stat-label">Standorte</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter-section">
+    <div class="container">
+      <h2 class="text-center mb-4">Bleiben Sie informiert</h2>
+      <p class="text-center mb-4">Abonnieren Sie unseren Newsletter für aktuelle Informationen und Angebote.</p>
+      <form class="newsletter-form">
+        <div class="input-group">
+          <input type="email" class="form-control" placeholder="Ihre E-Mail-Adresse">
+          <button class="btn btn-primary" type="submit">Anmelden</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Unsere Standorte</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2645.1234567890123!2d9.12345678901234!3d48.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA3JzI0LjQiTiA5wrAwNycxNC4xIkU!5e0!3m2!1sde!2sde!4v1234567890123!5m2!1sde!2sde"
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <div class="cookie-consent">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="mb-0">Wir verwenden Cookies, um Ihnen das beste Nutzererlebnis zu bieten. Durch die Nutzung unserer Website stimmen Sie der Verwendung von Cookies zu.</p>
+        </div>
+        <div class="col-md-4 text-end">
+          <button class="btn btn-primary" onclick="acceptCookies()">Akzeptieren</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+    
+    window.addEventListener('load', () => {
+      const loadingScreen = document.querySelector('.loading-screen');
+      loadingScreen.classList.add('fade-out');
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 500);
+    });
+    
+    const stats = document.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target;
+          const count = parseInt(target.getAttribute('data-count'));
+          let current = 0;
+          const increment = count / 50;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= count) {
+              clearInterval(timer);
+              current = count;
+            }
+            target.textContent = Math.floor(current);
+          }, 20);
+          statsObserver.unobserve(target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    stats.forEach(stat => statsObserver.observe(stat));
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+      
+      if ("IntersectionObserver" in window) {
+        const lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+              lazyImage.classList.add("loaded");
+              lazyImageObserver.unobserve(lazyImage);
+            }
+          });
+        });
+        
+        lazyImages.forEach(function(lazyImage) {
+          lazyImageObserver.observe(lazyImage);
+        });
+      }
+    });
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sende...';
+        submitButton.disabled = true;
+        
+        setTimeout(() => {
+          submitButton.innerHTML = '<i class="fas fa-check"></i> Gesendet!';
+          setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Nachricht senden';
+            submitButton.disabled = false;
+          }, 2000);
+        }, 1500);
+      });
+    }
+
+    function acceptCookies() {
+      document.querySelector('.cookie-consent').classList.remove('show');
+      localStorage.setItem('cookieConsent', 'accepted');
+    }
+
+    if (!localStorage.getItem('cookieConsent')) {
+      setTimeout(() => {
+        document.querySelector('.cookie-consent').classList.add('show');
+      }, 2000);
+    }
+
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.innerHTML = '<div class="loading-spinner"></div>';
+        setTimeout(() => {
+          submitButton.innerHTML = 'Erfolgreich angemeldet!';
+          submitButton.disabled = true;
+        }, 1500);
+      });
+    }
+
+    // Zitat-Rotation
+    const quotes = [
+      {text: '„Zusammenkommen ist ein Beginn, zusammenbleiben ist ein Fortschritt, zusammenarbeiten ist ein Erfolg."', author: '— Henry Ford'},
+      {text: '„Wer immer tut, was er schon kann, bleibt immer das, was er schon ist."', author: '— Henry Ford'},
+      {text: '„Erfolg besteht darin, dass man genau die Fähigkeiten hat, die im Moment gefragt sind."', author: '— Henry Ford'},
+      {text: '„Qualität bedeutet, dass der Kunde und nicht die Ware zurückkommt."', author: '— Hermann Tietz'}
+    ];
+    let quoteIndex = 0;
+    function rotateQuote() {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteText = document.getElementById('quote-text');
+      const quoteAuthor = document.getElementById('quote-author');
+      quoteText.style.opacity = 0;
+      quoteAuthor.style.opacity = 0;
+      setTimeout(() => {
+        quoteText.textContent = quotes[quoteIndex].text;
+        quoteAuthor.textContent = quotes[quoteIndex].author;
+        quoteText.style.opacity = 1;
+        quoteAuthor.style.opacity = 1;
+      }, 500);
+    }
+    setInterval(rotateQuote, 6000);
+  </script>
+</body>
+</html>
